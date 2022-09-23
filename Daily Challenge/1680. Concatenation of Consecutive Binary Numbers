@@ -1,0 +1,19 @@
+class Solution {
+    public int concatenatedBinary(int n) {
+        long ans=1;
+        for(int i=2;i<=n;i++)
+        {
+            int digits=0;//number of digits in the number
+            int temp=i;
+            while(temp>0)
+            {
+                temp=(temp>>1);
+                digits++;
+            }
+            ans=(ans<<(digits));//creating space for new numbers
+            ans=(ans|i);//concatinating the new number 
+            ans=ans%(1000000007);
+        }
+        return (int)ans;
+    }
+}
