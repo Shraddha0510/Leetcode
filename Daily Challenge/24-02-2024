@@ -1,0 +1,43 @@
+class Solution {
+    public List<Integer> findAllPeople(int n, int[][] meetings, int firstPerson) {
+        List<List<int[]>> adj=new ArrayList<>();
+        for(int i=0;i<n;i++)
+            adj.add(new ArrayList<>());
+        for(int[] i:meetings){
+          //  int[] x=new int[2];
+          //  x[0]=i[1];
+          //  x[1]=i[2];
+            adj.get(i[0]).add(new int[]{i[1],i[2]});
+          //  x[0]=i[0];
+            adj.get(i[1]).add(new int[]{i[0],i[2]});
+        }
+        int[] knows=new int[n];
+        Arrays.fill(knows,Integer.MAX_VALUE);
+        knows[0]=0;
+        knows[firstPerson]=0;
+     //   HashSet<Integer> hs=new HashSet<>();
+        List<Integer> ans=new ArrayList<>();
+                dfs(0,0,knows,adj);
+        dfs(firstPerson,0,knows,adj);
+
+        for(int i=0;i<n;i++)
+        {
+            if(knows[i]!=Integer.MAX_VALUE)
+                ans.add(i);
+        }
+        return ans;
+        
+    }
+   void dfs(int i,int time,int[] knows,List<List<int[]>> adj){
+        List<int[]> temp=adj.get(i);
+       for(int[] x:temp){
+           if(x[1]>=time && knows[x[0]]>x[1])
+           {
+               knows[x[0]]=x[1];
+               dfs(x[0],x[1],knows,adj);
+           }
+       }
+       
+        
+    }
+}
